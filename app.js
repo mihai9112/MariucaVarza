@@ -2,7 +2,7 @@ var express = require('express');
 
 var app = express();
 
-var port = 5000;
+var port = 80;
 
 app.get('/', function(req, res){
     res.send('Hello World');
