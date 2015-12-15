@@ -10,5 +10,8 @@
     "url": "https://github.com/mihai9112/MariucaVarza.git"
   },
   "author": "Dragos & Mihai",
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "express": "~4.13.3"
+  }
 }
