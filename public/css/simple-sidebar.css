@@ -70,6 +70,12 @@
     color: #999999;
 }
 
+.sidebar-nav li p {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+}
+
 .sidebar-nav li a:hover {
     text-decoration: none;
     color: #fff;

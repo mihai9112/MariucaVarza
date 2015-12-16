@@ -13,6 +13,17 @@
   "author": "Dragos & Mihai",
   "license": "BSD",
   "dependencies": {
+    "ejs": "^2.3.4",
     "express": "~4.13.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-inject": "^3.0.0",
+    "gulp-jscs": "^2.0.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-nodemon": "^2.0.4",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.1.0",
+    "wiredep": "^3.0.0"
   }
 }
