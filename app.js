@@ -3,7 +3,11 @@ var express = require('express');
 var app = express();
 
 var port = process.env.PORT || 3000;
-var router = require('./src/routes/router');
+var nav = [{
+    Link : '/',
+    Text : 'Admin'
+}];
+var router = require('./src/routes/router')(nav);
 
 app.use(express.static('public'));
 app.set('views', './src/views');

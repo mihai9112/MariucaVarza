@@ -4,15 +4,16 @@ var app = express();
 
 var router = express.Router();
 
-router.route('/')
-    .get(function (req, res) {
-        res.render('index', {
-            title: 'Independent cleaner',
-            nav: [{
-                Link: '/',
-                Text: 'Admin'
-            }]
+var routing = function (nav) {
+    router.route('/')
+        .get(function (req, res) {
+            res.render('index', {
+                title: 'Independent cleaner',
+                nav: nav
+            });
         });
-    });
 
-module.exports = router;
+    return router;
+};
+
+module.exports = routing;
