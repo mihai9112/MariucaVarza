@@ -4,10 +4,22 @@ var app = express();
 
 var port = process.env.PORT || 3000;
 var nav = [{
-    Link : '/',
-    Text : 'Admin'
+    Link: '/',
+    Text: 'Admin'
 }];
-var router = require('./src/routes/router')(nav);
+
+var houses = [
+    {
+        Name: 'Belgrave'
+    },
+    {
+        Name: 'Blythswood'
+    },
+    {
+        Name: 'Glencoe'
+    }
+];
+var router = require('./src/routes/router')(nav, houses);
 
 app.use(express.static('public'));
 app.set('views', './src/views');
