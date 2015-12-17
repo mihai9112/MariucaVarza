@@ -12,6 +12,10 @@ var routing = function (nav, houses) {
                 nav: nav,
                 houses: houses
             });
+        })
+        .post(function (req, res) {
+            console.log(req.body.data);
+            res.send('bleak');
         });
 
     return router;

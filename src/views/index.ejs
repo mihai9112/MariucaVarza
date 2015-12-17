@@ -72,7 +72,7 @@
                         <% for(var i = 0; i < houses.length; i++){ %> 
                             <div id="ck-button">
                                <label>         
-                                  <input type="checkbox" value="1"><span><%=houses[i].Name%></span>
+                                  <input class="chkHouse" type="checkbox" value="1"><span><%=houses[i].Name%></span>
                                </label>
                             </div>
                         <% } %>
@@ -87,9 +87,18 @@
 
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
+    $('#menu-toggle').click(function(e) {
         e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+        $('#wrapper').toggleClass('toggled');
+    });
+        
+    $('.chkHouse').change(function(e){
+        e.preventDefault();
+        if(this.checked){
+            $.post('/', {data: 'blah'}, function(data){
+                
+            });    
+        }
     });
     </script>
 

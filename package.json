@@ -13,6 +13,7 @@
   "author": "Dragos & Mihai",
   "license": "BSD",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "ejs": "^2.3.4",
     "express": "~4.13.3"
   },
