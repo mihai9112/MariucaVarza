@@ -37,13 +37,8 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- Menu Toggle Script -->
-    <script>
-        $('#menu-toggle').click(function (e) {
-            e.preventDefault();
-            $('#wrapper').toggleClass('toggled');
-        });
 
+    <script>
         function selectedHouse(selectedValue) {
             if (selectedValue.checked) {
                 $(".divCkRoom").remove();
@@ -86,7 +81,7 @@
             var rooms = [];
             var ckRooms = $('.ckRoom:checked');
             var house = $('.chHouse:checked')[0].value;
-            
+
             for (var i = 0; i < ckRooms.length; i++) {
                 rooms.push(ckRooms[i].value);
             }
@@ -94,13 +89,13 @@
                 Name: house,
                 Rooms: rooms
             });
-            
-            for(var i = 0; i < selectedHousesWithRooms.length; i++){
+
+            for (var i = 0; i < selectedHousesWithRooms.length; i++) {
                 outputString += 'House ' + selectedHousesWithRooms[i].Name + ' has these rooms available: ';
-                
-                for(var j = 0; j < selectedHousesWithRooms[i].Rooms.length; j++){
+
+                for (var j = 0; j < selectedHousesWithRooms[i].Rooms.length; j++) {
                     outputString += selectedHousesWithRooms[i].Rooms[j] + ' ';
-                    if(j < selectedHousesWithRooms[i].Rooms.length - 1){
+                    if (j < selectedHousesWithRooms[i].Rooms.length - 1) {
                         outputString += ',';
                     }
                 }
@@ -182,6 +177,14 @@
 
     </div>
     <!-- /#wrapper -->
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $('#menu-toggle').click(function (e) {
+            e.preventDefault();
+            $('#wrapper').toggleClass('toggled');
+        });
+    </script>
 </body>
 
 </html>
