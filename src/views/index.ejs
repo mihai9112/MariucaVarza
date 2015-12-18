@@ -37,6 +37,80 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- Menu Toggle Script -->
+    <script>
+        $('#menu-toggle').click(function (e) {
+            e.preventDefault();
+            $('#wrapper').toggleClass('toggled');
+        });
+
+        function selectedHouse(selectedValue) {
+            if (selectedValue.checked) {
+                $(".divCkRoom").remove();
+
+                var otherCheckBoxes = $('.chHouse');
+                for (var i = 0; i < otherCheckBoxes.length; i++) {
+                    if (selectedValue.value !== otherCheckBoxes[i].value) {
+                        otherCheckBoxes[i].checked = false;
+                    }
+                }
+
+                $.post('/', {
+                    data: selectedValue.value
+                }, function (rooms) {
+                    var container = $('#rooms');
+                    for (var i = 0; i < rooms.length; i++) {
+                        var div = $('<div />', {
+                            id: 'ck-button',
+                            class: 'divCkRoom'
+                        }).appendTo(container);
+                        var label = $('<label/>').appendTo(div);
+                        var input = $('<input/>', {
+                            type: 'checkbox',
+                            value: rooms[i],
+                            class: 'ckRoom'
+                        }).appendTo(label);
+                        label.append('<span>Room: ' + rooms[i] + '</span>');
+                    }
+                });
+            }
+            if (!selectedValue.checked) {
+                $(".divCkRoom").remove();
+            }
+        }
+
+        var selectedHousesWithRooms = [];
+        var outputString = '';
+
+        function addRooms() {
+            var rooms = [];
+            var ckRooms = $('.ckRoom:checked');
+            var house = $('.chHouse:checked')[0].value;
+            
+            for (var i = 0; i < ckRooms.length; i++) {
+                rooms.push(ckRooms[i].value);
+            }
+            selectedHousesWithRooms.push({
+                Name: house,
+                Rooms: rooms
+            });
+            
+            for(var i = 0; i < selectedHousesWithRooms.length; i++){
+                outputString += 'House ' + selectedHousesWithRooms[i].Name + ' has these rooms: ';
+                
+                for(var j = 0; j < selectedHousesWithRooms[i].Rooms.length; j++){
+                    outputString += selectedHousesWithRooms[i].Rooms[j] + ' ';
+                    if(j < selectedHousesWithRooms[i].Rooms.length - 1){
+                        outputString += ',';
+                    }
+                }
+            }
+
+            $('#output').html(outputString);
+            outputString = '';
+        }
+    </script>
+
 </head>
 
 <body>
@@ -90,43 +164,24 @@
                     <div class="col-lg-12" id="rooms">
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-default" onclick="addRooms()">Add Rooms</button>
+                        <a href="/" class="btn btn-default">Reset</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4>Format of text message</h4>
+                        <p id="output"></p>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /#page-content-wrapper -->
 
     </div>
     <!-- /#wrapper -->
-
-    <!-- Menu Toggle Script -->
-    <script>
-        $('#menu-toggle').click(function (e) {
-            e.preventDefault();
-            $('#wrapper').toggleClass('toggled');
-        });
-
-        function selectedHouse(selectedValue) {
-            if(selectedValue.checked)
-            {
-                $(".ckRoom").remove();
-                
-                var otherCheckBoxes = $('.chHouse');
-                for(var i = 0; i < otherCheckBoxes.length; i++){
-                    if(selectedValue.value !== otherCheckBoxes[i].value){
-                        otherCheckBoxes[i].checked = false;
-                    }
-                }
-                
-                $.post('/', {data: selectedValue.value}, function(rooms){
-                    for(var i = 0; i < rooms.length; i++){
-                        $("#rooms").append("<div id='ck-button' class='ckRoom'><label><input type='checkbox'/><span>Room: " + rooms[i] + "</span></label></div>");
-                    }
-                });
-            }
-            if(!selectedValue.checked){
-                $(".ckRoom").remove();
-            }
-        }
-    </script>
 </body>
 
 </html>
