@@ -9,18 +9,21 @@ var nav = [{
     Text: 'Admin'
 }];
 
-var houses = [
+var housesWithRooms = [
     {
-        Name: 'Belgrave'
+        Name: 'Belgrave',
+        Rooms: [1, 2, 3, 4, 5]
     },
     {
-        Name: 'Blythswood'
+        Name: 'Blythswood',
+        Rooms: [6, 7, 8, 9, 10]
     },
     {
-        Name: 'Glencoe'
+        Name: 'Glencoe',
+        Rooms: [11, 12, 13, 14, 15]
     }
 ];
-var router = require('./src/routes/router')(nav, houses);
+var router = require('./src/routes/router')(nav, housesWithRooms);
 
 app.use(express.static('public'));
 app.set('views', './src/views');

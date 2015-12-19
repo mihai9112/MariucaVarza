@@ -39,70 +39,34 @@
 
 
     <script>
-        function selectedHouse(selectedValue) {
-            if (selectedValue.checked) {
-                $(".divCkRoom").remove();
-
-                var otherCheckBoxes = $('.chHouse');
-                for (var i = 0; i < otherCheckBoxes.length; i++) {
-                    if (selectedValue.value !== otherCheckBoxes[i].value) {
-                        otherCheckBoxes[i].checked = false;
-                    }
-                }
-
-                $.post('/', {
-                    data: selectedValue.value
-                }, function (rooms) {
-                    var container = $('#rooms');
-                    for (var i = 0; i < rooms.length; i++) {
-                        var div = $('<div />', {
-                            id: 'ck-button',
-                            class: 'divCkRoom'
-                        }).appendTo(container);
-                        var label = $('<label/>').appendTo(div);
-                        var input = $('<input/>', {
-                            type: 'checkbox',
-                            value: rooms[i],
-                            class: 'ckRoom'
-                        }).appendTo(label);
-                        label.append('<span>Room: ' + rooms[i] + '</span>');
-                    }
-                });
-            }
-            if (!selectedValue.checked) {
-                $(".divCkRoom").remove();
+        function showRooms(house) {
+            var houseSelector = ".house_" + house.value;
+            var selectedRow = $(houseSelector);
+            if (house.checked) {
+                selectedRow.show();
+            } else {
+                selectedRow.hide();
             }
         }
 
-        var selectedHousesWithRooms = [];
-        var outputString = '';
-
         function addRooms() {
-            var rooms = [];
-            var ckRooms = $('.ckRoom:checked');
-            var house = $('.chHouse:checked')[0].value;
-
-            for (var i = 0; i < ckRooms.length; i++) {
-                rooms.push(ckRooms[i].value);
-            }
-            selectedHousesWithRooms.push({
-                Name: house,
-                Rooms: rooms
-            });
-
-            for (var i = 0; i < selectedHousesWithRooms.length; i++) {
-                outputString += 'House ' + selectedHousesWithRooms[i].Name + ' has these rooms available: ';
-
-                for (var j = 0; j < selectedHousesWithRooms[i].Rooms.length; j++) {
-                    outputString += selectedHousesWithRooms[i].Rooms[j] + ' ';
-                    if (j < selectedHousesWithRooms[i].Rooms.length - 1) {
-                        outputString += ',';
+            var outputText = '';
+            var checkedHouses = $('.chHouse:checked');
+            var checkedRooms = $('.chRoom:checked');
+            for (var i = 0; i < checkedHouses.length; i++) {
+                outputText += 'House: ' + checkedHouses[i].value + ' has these rooms available: ';
+                for (var j = 0; j < checkedRooms.length; j++) {
+                    var c = checkedRooms[j].className;
+                    var s = checkedHouses[i].value
+                    if (c.indexOf(s) > 0) {
+                        outputText += checkedRooms[j].value;
+                        if (j < checkedRooms.length - 1) {
+                            outputText += ',';
+                        }
                     }
                 }
             }
-
-            $('#output').html(outputString);
-            outputString = '';
+            $('#output').text(outputText);
         }
     </script>
 
@@ -149,28 +113,41 @@
                         <% for(var i = 0; i < houses.length; i++){ %>
                             <div id="ck-button">
                                 <label>
-                                    <input class="chHouse" type="checkbox" value="<%=houses[i].Name%>" onchange="selectedHouse(this)" /><span><%=houses[i].Name%></span>
+                                    <input class="chHouse" type="checkbox" value="<%=houses[i].Name%>" onchange="showRooms(this)" /><span><%=houses[i].Name%></span>
                                 </label>
                             </div>
                             <% } %>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12" id="rooms">
+                <% for(var i = 0; i < houses.length; i++){ %>
+                    <div class="row">
+                        <div class="house_<%=houses[i].Name%>" hidden="true">
+                            <div class="col-lg-12">
+                                <h5><%=houses[i].Name%> rooms:</h5>
+                                <% for(var j = 0; j < houses[i].Rooms.length; j++){%>
+                                    <div id="ck-button">
+                                        <label>
+                                            <input class="chRoom <%=houses[i].Name%>" type="checkbox" value="<%=houses[i].Rooms[j]%>" />
+                                            <span><%=houses[i].Rooms[j]%></span>
+                                        </label>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button type="button" class="btn btn-default" onclick="addRooms()">Add Rooms</button>
-                        <a href="/" class="btn btn-default">Reset</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4>Format of text message</h4>
-                        <p id="output"></p>
-                    </div>
-                </div>
+                    <% } %>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-default" onclick="addRooms()">Add Rooms</button>
+                                <a href="/" class="btn btn-default">Reset</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4>Format of text message</h4>
+                                <p id="output"></p>
+                            </div>
+                        </div>
             </div>
         </div>
         <!-- /#page-content-wrapper -->
