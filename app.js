@@ -11,27 +11,27 @@ var nav = [{
 
 var housesWithRooms = [
     {
-        Label: '5Belgrave',
+        Value: '5Belgrave',
         Name: '5 Belgrave',
         Rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     },
     {
-        Label: '7Belgrave',
+        Value: '7Belgrave',
         Name: '7 Belgrave',
         Rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     },
     {
-        Label: '74Belgrave',
+        Value: '74Belgrave',
         Name: '74 Belgrave',
         Rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
     },
     {
-        Label: 'Blythswood',
+        Value: 'Blythswood',
         Name: 'Blythswood',
         Rooms: [1, 2, 3, 4, 5, 6, 7, 8]
     },
     {
-        Label: 'Glencoe',
+        Value: 'Glencoe',
         Name: 'Glencoe',
         Rooms: [1, 2, 3, 4, 5, 6, 7, 8]
     }
