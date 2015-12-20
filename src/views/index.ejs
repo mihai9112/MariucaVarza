@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <!-- endinject -->
     <!-- inject:js -->
+    <script src="/js/custom.js"></script>
     <!-- endinject -->
 
     <!-- bower:css -->
@@ -50,27 +51,31 @@
         }
 
         var outputText;
+
         function addRooms() {
             outputText = '';
             var checkedHouses = $('.chHouse:checked');
             var checkedRooms = $('.chRoom:checked');
             for (var i = 0; i < checkedHouses.length; i++) {
-                outputText += 'House: ' + checkedHouses[i].value + ' has these rooms available: ';
-                for (var j = 0; j < checkedRooms.length; j++) {
-                    var c = checkedRooms[j].className;
-                    var s = checkedHouses[i].value
-                    if (c.indexOf(s) > 0) {
-                        outputText += checkedRooms[j].value;
-                        if (j < checkedRooms.length - 1) {
-                            outputText += ',';
+                if (checkedRooms.length > 0) {
+                    outputText += 'House: ' + checkedHouses[i].value + ' has these rooms available: ';
+                    for (var j = 0; j < checkedRooms.length; j++) {
+                        var c = checkedRooms[j].className;
+                        var s = checkedHouses[i].value
+                        if (c.indexOf(s) > 0) {
+                            outputText += checkedRooms[j].value;
+                            if (j < checkedRooms.length - 1) {
+                                outputText += ',';
+                            }
                         }
                     }
                 }
+
             }
             $('#output').text(outputText);
         }
-        
-        function noRoomsAvailable(){
+
+        function noRoomsAvailable() {
             outputText = 'No rooms available.';
             $('#output').text(outputText);
         }
@@ -96,7 +101,7 @@
                             <%=nav[i].Text%>
                         </a>
                     </li>
-                <%}%>
+                    <%}%>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
