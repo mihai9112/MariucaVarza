@@ -11,16 +11,29 @@ var nav = [{
 
 var housesWithRooms = [
     {
-        Name: 'Belgrave',
-        Rooms: [1, 2, 3, 4, 5]
+        Label: '5Belgrave',
+        Name: '5 Belgrave',
+        Rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     },
     {
+        Label: '7Belgrave',
+        Name: '7 Belgrave',
+        Rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    },
+    {
+        Label: '74Belgrave',
+        Name: '74 Belgrave',
+        Rooms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+    },
+    {
+        Label: 'Blythswood',
         Name: 'Blythswood',
-        Rooms: [6, 7, 8, 9, 10]
+        Rooms: [1, 2, 3, 4, 5, 6, 7, 8]
     },
     {
+        Label: 'Glencoe',
         Name: 'Glencoe',
-        Rooms: [11, 12, 13, 14, 15]
+        Rooms: [1, 2, 3, 4, 5, 6, 7, 8]
     }
 ];
 var router = require('./src/routes/router')(nav, housesWithRooms);
