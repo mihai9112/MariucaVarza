@@ -31,3 +31,12 @@
     color:#fff;
     height: 117%;
 }
+
+#house {
+	float: left;
+}
+
+.room-list {
+	clear: left;
+	padding-left: 5%;
+}
