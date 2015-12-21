@@ -38,67 +38,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
-<<<<<<< c92d2c707ced865c3ea97c715c4daf53793aae42
-	<script>
-		function showRooms(house) {
-			var houseSelector = ".house_" + house.value;
-			var selectedRow = $(houseSelector);
-			if (house.checked) {
-				selectedRow.show();
-			} else {
-				selectedRow.hide();
-			}
-		}
-
-		var outputText;
-
-		function addRooms() {
-			outputText = 'Avlb rooms:';
-			var checkedHouses = $('.chHouse:checked');
-			var checkedRooms = $('.chRoom:checked');
-			for (var i = 0; i < checkedHouses.length; i++) {
-				if (outputText.length > 11) {
-					cleanedText = outputText.replace(",}", "}");
-					outputText = cleanedText;
-				}
-				if (checkedRooms.length > 0) {
-					outputText += checkedHouses[i].getAttribute('name') + '{';
-					for (var j = 0; j < checkedRooms.length; j++) {
-						var c = checkedRooms[j].className;
-						var s = checkedHouses[i].value
-						if (c.indexOf(s) > 0) {
-							outputText += checkedRooms[j].value;
-							if (j < checkedRooms.length - 1) {
-								outputText += ',';
-							}
-						}
-					}
-				}
-				outputText += '};';
-			}
-			$('#output').text(outputText);
-		}
-
-		function noRoomsAvailable() {
-			outputText = 'No rooms available.';
-			$('#output').text(outputText);
-		}
-
-		function sendSms() {
-			var smsMessage = $('#output').html();
-			if (smsMessage.length > 0) {
-				$.post('/sendsms', {
-					message: smsMessage
-				}, function (statusMessage) {
-					$('#deliveryStatus').text(statusMessage);
-				});
-			} else {
-				$('#deliveryStatus').text('Nothing to send');
-			}
-		}
-	</script>
-=======
     <script>
         function showRooms(house) {
             var houseSelector = ".house_" + house.value;
@@ -164,8 +103,6 @@
             }
         }
     </script>
->>>>>>> changed {} to []
-
 </head>
 
 <body>
