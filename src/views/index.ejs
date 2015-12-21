@@ -56,25 +56,32 @@
             outputText = 'Avlb rooms:';
             var checkedHouses = $('.chHouse:checked');
             var checkedRooms = $('.chRoom:checked');
-            for (var i = 0; i < checkedHouses.length; i++) {
-                if (outputText.length > 11) {
-                    cleanedText = outputText.replace(",]", "]");
-                    outputText = cleanedText;
-                }
-                if (checkedRooms.length > 0) {
-                    outputText += checkedHouses[i].getAttribute('name') + '[';
-                    for (var j = 0; j < checkedRooms.length; j++) {
-                        var c = checkedRooms[j].className;
-                        var s = checkedHouses[i].value
-                        if (c.indexOf(s) > 0) {
-                            outputText += checkedRooms[j].value;
-                            if (j < checkedRooms.length - 1) {
-                                outputText += ',';
+            if (checkedHouses.length > 0) {
+                for (var i = 0; i < checkedHouses.length; i++) {
+                    if (outputText.length > 11) {
+                        cleanedText = outputText.replace(",]", "]");
+                        outputText = cleanedText;
+                    }
+                    if (checkedRooms.length > 0) {
+                        outputText += checkedHouses[i].getAttribute('name') + '[';
+                        for (var j = 0; j < checkedRooms.length; j++) {
+                            var c = checkedRooms[j].className;
+                            var s = checkedHouses[i].value
+                            if (c.indexOf(s) > 0) {
+                                outputText += checkedRooms[j].value;
+                                if (j < checkedRooms.length - 1) {
+                                    outputText += ',';
+                                }
                             }
                         }
                     }
+                    else{
+                        outputText = '';
+                    }
+                    if(outputText.length > 0){
+                        outputText += '];';    
+                    }
                 }
-                outputText += '];';
             }
             $('#output').text(outputText);
         }
@@ -92,8 +99,7 @@
                 }, function (statusMessage) {
                     $('#deliveryStatus').text(statusMessage);
                 });
-            }
-            else{
+            } else {
                 $('#deliveryStatus').text('Nothing to send');
             }
         }
