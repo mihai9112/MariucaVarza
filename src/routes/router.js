@@ -22,9 +22,13 @@ var routing = function (nav, houses) {
                 from: config.from,
                 body: req.body.message,
             }, function (err, message) {
-                console.log(err);
+                if (err != null) {
+                    res.send(err.message);
+                    console.log(err);
+                } else {
+                    res.send('SMS sent');
+                }
             });
-            res.end();
         });
     return router;
 };

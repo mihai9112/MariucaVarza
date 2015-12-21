@@ -57,9 +57,9 @@
             var checkedHouses = $('.chHouse:checked');
             var checkedRooms = $('.chRoom:checked');
             for (var i = 0; i < checkedHouses.length; i++) {
-                if(outputText.length > 11){
-                   cleanedText = outputText.replace(",}", "}");
-                   outputText = cleanedText;
+                if (outputText.length > 11) {
+                    cleanedText = outputText.replace(",}", "}");
+                    outputText = cleanedText;
                 }
                 if (checkedRooms.length > 0) {
                     outputText += checkedHouses[i].getAttribute('name') + '{';
@@ -74,7 +74,7 @@
                         }
                     }
                 }
-                outputText += '}';
+                outputText += '};';
             }
             $('#output').text(outputText);
         }
@@ -88,6 +88,8 @@
             var smsMessage = $('#output').html();
             $.post('/sendsms', {
                 message: smsMessage
+            }, function (statusMessage) {
+                $('#deliveryStatus').text(statusMessage);
             });
         }
     </script>
@@ -175,6 +177,9 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <button type="button" class="btn btn-default" onclick="sendSms()">Send SMS</button>
+                            </div>
+                            <div class="col-lg-12">
+                                <h5 id="deliveryStatus"></h5>
                             </div>
                         </div>
             </div>
