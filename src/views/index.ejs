@@ -3,190 +3,204 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-    <title>
-        <%=title%>
-    </title>
+	<title>
+		<%=title%>
+	</title>
 
-    <!-- Custom CSS -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="/css/simple-sidebar.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <!-- endinject -->
-    <!-- inject:js -->
-    <script src="/js/custom.js"></script>
-    <!-- endinject -->
+	<!-- Custom CSS -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="/css/simple-sidebar.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<!-- endinject -->
+	<!-- inject:js -->
+	<script src="/js/custom.js"></script>
+	<!-- endinject -->
 
-    <!-- bower:css -->
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
-    <!-- endbower -->
+	<!-- bower:css -->
+	<link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+	<!-- endbower -->
 
-    <!-- bower:js -->
-    <script src="/lib/jquery/dist/jquery.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- endbower -->
+	<!-- bower:js -->
+	<script src="/lib/jquery/dist/jquery.js"></script>
+	<script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+	<!-- endbower -->
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
 
-    <script>
-        function showRooms(house) {
-            var houseSelector = ".house_" + house.value;
-            var selectedRow = $(houseSelector);
-            if (house.checked) {
-                selectedRow.show();
-            } else {
-                selectedRow.hide();
-            }
-        }
+	<script>
+		function showRooms(house) {
+			var houseSelector = ".house_" + house.value;
+			var selectedRow = $(houseSelector);
+			if (house.checked) {
+				selectedRow.show();
+			} else {
+				selectedRow.hide();
+			}
+		}
 
-        var outputText;
+		var outputText;
 
-        function addRooms() {
-            outputText = '';
-            var checkedHouses = $('.chHouse:checked');
-            var checkedRooms = $('.chRoom:checked');
-            for (var i = 0; i < checkedHouses.length; i++) {
-                if (checkedRooms.length > 0) {
-                    outputText += 'House: ' + checkedHouses[i].name + ' has these rooms available: ';
-                    for (var j = 0; j < checkedRooms.length; j++) {
-                        var c = checkedRooms[j].className;
-                        var s = checkedHouses[i].value
-                        if (c.indexOf(s) > 0) {
-                            outputText += checkedRooms[j].value;
-                            if (j < checkedRooms.length - 1) {
-                                outputText += ',';
-                            }
-                        }
-                    }
-                }
+		function addRooms() {
+			outputText = 'Avlb rooms:';
+			var checkedHouses = $('.chHouse:checked');
+			var checkedRooms = $('.chRoom:checked');
+			for (var i = 0; i < checkedHouses.length; i++) {
+				if (outputText.length > 11) {
+					cleanedText = outputText.replace(",}", "}");
+					outputText = cleanedText;
+				}
+				if (checkedRooms.length > 0) {
+					outputText += checkedHouses[i].getAttribute('name') + '{';
+					for (var j = 0; j < checkedRooms.length; j++) {
+						var c = checkedRooms[j].className;
+						var s = checkedHouses[i].value
+						if (c.indexOf(s) > 0) {
+							outputText += checkedRooms[j].value;
+							if (j < checkedRooms.length - 1) {
+								outputText += ',';
+							}
+						}
+					}
+				}
+				outputText += '};';
+			}
+			$('#output').text(outputText);
+		}
 
-            }
-            $('#output').text(outputText);
-        }
+		function noRoomsAvailable() {
+			outputText = 'No rooms available.';
+			$('#output').text(outputText);
+		}
 
-        function noRoomsAvailable() {
-            outputText = 'No rooms available.';
-            $('#output').text(outputText);
-        }
-
-        function sendSms() {
-            var smsMessage = $('#output').html();
-            $.post('/sendsms', {
-                message: smsMessage
-            });
-        }
-    </script>
+		function sendSms() {
+			var smsMessage = $('#output').html();
+			if (smsMessage.length > 0) {
+				$.post('/sendsms', {
+					message: smsMessage
+				}, function (statusMessage) {
+					$('#deliveryStatus').text(statusMessage);
+				});
+			} else {
+				$('#deliveryStatus').text('Nothing to send');
+			}
+		}
+	</script>
 
 </head>
 
 <body>
 
-    <div id="wrapper">
+	<div id="wrapper">
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <p>
-                        <%=title%>
-                    </p>
-                </li>
-                <% for(var i=0; i < nav.length; i++){%>
-                    <li>
-                        <a href="<%=nav[i].Link%>">
-                            <%=nav[i].Text%>
-                        </a>
-                    </li>
-                    <%}%>
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
+		<!-- Sidebar -->
+		<div id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li class="sidebar-brand">
+					<p>
+						<%=title%>
+					</p>
+				</li>
+				<% for(var i=0; i < nav.length; i++){%>
+					<li>
+						<a href="<%=nav[i].Link%>">
+							<%=nav[i].Text%>
+						</a>
+					</li>
+					<%}%>
+			</ul>
+		</div>
+		<!-- /#sidebar-wrapper -->
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>Web application for Mariuca Varza</h1>
-                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
-                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3>List of houses</h3>
-                        <% for(var i = 0; i < houses.length; i++){ %>
-                            <div id="ck-button">
-                                <label>
-                                    <input class="chHouse" type="checkbox" value="<%=houses[i].Value%>" onchange="showRooms(this)" name="<%=houses[i].Name%>" />
-                                    <span><%=houses[i].Name%></span>
-                                </label>
-                            </div>
-                            <% } %>
-                    </div>
-                </div>
-                <% for(var i = 0; i < houses.length; i++){ %>
-                    <div class="row">
-                        <div class="house_<%=houses[i].Value%>" hidden="true">
-                            <div class="col-lg-12">
-                                <h5><%=houses[i].Name%> rooms:</h5>
-                                <% for(var j = 0; j < houses[i].Rooms.length; j++){%>
-                                    <div id="ck-button">
-                                        <label>
-                                            <input class="chRoom <%=houses[i].Value%>" type="checkbox" value="<%=houses[i].Rooms[j]%>" />
-                                            <span><%=houses[i].Rooms[j]%></span>
-                                        </label>
-                                    </div>
-                                    <% } %>
-                            </div>
-                        </div>
-                    </div>
-                    <% } %>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <button type="button" class="btn btn-default" onclick="noRoomsAvailable()">No Rooms Available</button>
-                                <button type="button" class="btn btn-default" onclick="addRooms()">Add Rooms</button>
-                                <a href="/" class="btn btn-default">Reset</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h4>Format of text message</h4>
-                                <p id="output"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <button type="button" class="btn btn-default" onclick="sendSms()">Send SMS</button>
-                            </div>
-                        </div>
-            </div>
-        </div>
-        <!-- /#page-content-wrapper -->
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1>Web application for Mariuca Varza</h1>
+						<p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+						<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h3>List of houses</h3>
+						<% for(var i = 0; i < houses.length; i++){ %>
+							<div id="house">
+										<div id="ck-button">
+											<label>
+												<input class="chHouse" type="checkbox" value="<%=houses[i].Value%>" onchange="showRooms(this)" name="<%=houses[i].ShortName%>" />
+												<span><%=houses[i].Name%></span>
+											</label>
+										</div>
+										<div class="row room-list">
+											<div class="house_<%=houses[i].Value%>" hidden="true">
+												<div class="col-lg-12">
+													<h5>Rooms:</h5>
+													<% for(var j = 0; j < houses[i].Rooms.length; j++){%>
+														<div id="ck-button">
+															<label>
+																<input class="chRoom <%=houses[i].Value%>" type="checkbox" value="<%=houses[i].Rooms[j]%>" />
+																<span><%=houses[i].Rooms[j]%></span>
+															</label>
+														</div>
+														<% } %>
+												</div>
+											</div>
+										</div>
+							</div>
+							<% } %>
+					</div>
+				</div>
 
-    </div>
-    <!-- /#wrapper -->
+				<div class="row">
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-default" onclick="noRoomsAvailable()">No Rooms Available</button>
+						<button type="button" class="btn btn-default" onclick="addRooms()">Add Rooms</button>
+						<a href="/" class="btn btn-default">Reset</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<h4>Format of text message:</h4>
+						<h5 id="output"></h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<button type="button" class="btn btn-default" onclick="sendSms()">Send SMS</button>
+					</div>
+					<div class="col-lg-12">
+						<h5 id="deliveryStatus"></h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
 
-    <!-- Menu Toggle Script -->
-    <script>
-        $('#menu-toggle').click(function (e) {
-            e.preventDefault();
-            $('#wrapper').toggleClass('toggled');
-        });
-    </script>
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- Menu Toggle Script -->
+	<script>
+		$('#menu-toggle').click(function (e) {
+			e.preventDefault();
+			$('#wrapper').toggleClass('toggled');
+		});
+	</script>
 </body>
 
 </html>
