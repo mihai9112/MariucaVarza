@@ -86,11 +86,16 @@
 
         function sendSms() {
             var smsMessage = $('#output').html();
-            $.post('/sendsms', {
-                message: smsMessage
-            }, function (statusMessage) {
-                $('#deliveryStatus').text(statusMessage);
-            });
+            if (smsMessage.length > 0) {
+                $.post('/sendsms', {
+                    message: smsMessage
+                }, function (statusMessage) {
+                    $('#deliveryStatus').text(statusMessage);
+                });
+            }
+            else{
+                $('#deliveryStatus').text('Nothing to send');
+            }
         }
     </script>
 
