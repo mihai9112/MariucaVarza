@@ -58,11 +58,11 @@
             var checkedRooms = $('.chRoom:checked');
             for (var i = 0; i < checkedHouses.length; i++) {
                 if (outputText.length > 11) {
-                    cleanedText = outputText.replace(",}", "}");
+                    cleanedText = outputText.replace(",]", "]");
                     outputText = cleanedText;
                 }
                 if (checkedRooms.length > 0) {
-                    outputText += checkedHouses[i].getAttribute('name') + '{';
+                    outputText += checkedHouses[i].getAttribute('name') + '[';
                     for (var j = 0; j < checkedRooms.length; j++) {
                         var c = checkedRooms[j].className;
                         var s = checkedHouses[i].value
@@ -74,7 +74,7 @@
                         }
                     }
                 }
-                outputText += '};';
+                outputText += '];';
             }
             $('#output').text(outputText);
         }
