@@ -79,6 +79,13 @@
             outputText = 'No rooms available.';
             $('#output').text(outputText);
         }
+
+        function sendSms() {
+            var smsMessage = $('#output').html();
+            $.post('/sendsms', {
+                message: smsMessage
+            });
+        }
     </script>
 
 </head>
@@ -159,6 +166,11 @@
                             <div class="col-lg-12">
                                 <h4>Format of text message</h4>
                                 <p id="output"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-default" onclick="sendSms()">Send SMS</button>
                             </div>
                         </div>
             </div>
