@@ -18,10 +18,6 @@
 	<link rel="stylesheet" href="/css/simple-sidebar.css">
 	<link rel="stylesheet" href="/css/style.css">
 	<!-- endinject -->
-	<!-- inject:js -->
-	<script src="/js/custom.js"></script>
-	<!-- endinject -->
-
 	<!-- bower:css -->
 	<link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
 	<!-- endbower -->
@@ -30,6 +26,9 @@
 	<script src="/lib/jquery/dist/jquery.js"></script>
 	<script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
 	<!-- endbower -->
+    <!-- inject:js -->
+	<script src="/js/custom.js"></script>
+	<!-- endinject -->
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,72 +36,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <script>
-        function showRooms(house) {
-            var houseSelector = ".house_" + house.value;
-            var selectedRow = $(houseSelector);
-            if (house.checked) {
-                selectedRow.show();
-            } else {
-                selectedRow.hide();
-            }
-        }
-
-        var outputText;
-
-        function addRooms() {
-            outputText = 'Avlb rooms:';
-            var checkedHouses = $('.chHouse:checked');
-            var checkedRooms = $('.chRoom:checked');
-            if (checkedHouses.length > 0) {
-                for (var i = 0; i < checkedHouses.length; i++) {
-                    if (outputText.length > 11) {
-                        cleanedText = outputText.replace(",]", "]");
-                        outputText = cleanedText;
-                    }
-                    if (checkedRooms.length > 0) {
-                        outputText += checkedHouses[i].getAttribute('name') + '[';
-                        for (var j = 0; j < checkedRooms.length; j++) {
-                            var c = checkedRooms[j].className;
-                            var s = checkedHouses[i].value
-                            if (c.indexOf(s) > 0) {
-                                outputText += checkedRooms[j].value;
-                                if (j < checkedRooms.length - 1) {
-                                    outputText += ',';
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        outputText = '';
-                    }
-                    if(outputText.length > 0){
-                        outputText += '];';    
-                    }
-                }
-            }
-            $('#output').text(outputText);
-        }
-
-        function noRoomsAvailable() {
-            outputText = 'No rooms available.';
-            $('#output').text(outputText);
-        }
-
-        function sendSms() {
-            var smsMessage = $('#output').html();
-            if (smsMessage.length > 0) {
-                $.post('/sendsms', {
-                    message: smsMessage
-                }, function (statusMessage) {
-                    $('#deliveryStatus').text(statusMessage);
-                });
-            } else {
-                $('#deliveryStatus').text('Nothing to send');
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -147,7 +80,7 @@
 							<div id="house">
 										<div id="ck-button">
 											<label>
-												<input class="chHouse" type="checkbox" value="<%=houses[i].Value%>" onchange="showRooms(this)" name="<%=houses[i].ShortName%>" />
+												<input class="chHouse" type="checkbox" value="<%=houses[i].Value%>" name="<%=houses[i].ShortName%>" />
 												<span><%=houses[i].Name%></span>
 											</label>
 										</div>
@@ -173,8 +106,8 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<button type="button" class="btn btn-default" onclick="noRoomsAvailable()">No Rooms Available</button>
-						<button type="button" class="btn btn-default" onclick="addRooms()">Add Rooms</button>
+						<button type="button" class="btn btn-default" id="noRooms">No Rooms Available</button>
+						<button type="button" class="btn btn-default" id="addRooms">Add Rooms</button>
 						<a href="/" class="btn btn-default">Reset</a>
 					</div>
 				</div>
@@ -186,7 +119,7 @@
 				</div>
 				<div class="row">
 					<div class="col-lg-12">
-						<button type="button" class="btn btn-default" onclick="sendSms()">Send SMS</button>
+						<button type="button" class="btn btn-default" id="sendSms">Send SMS</button>
 					</div>
 					<div class="col-lg-12">
 						<h5 id="deliveryStatus"></h5>
