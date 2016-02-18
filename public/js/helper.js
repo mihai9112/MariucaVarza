@@ -50,6 +50,10 @@ export class Helper {
                 outputText = closeDraftMessage(outputText);
             }
         }
+
+        if (outputText === '') {
+            return 'No rooms selected';
+        }
         return outputText;
     }
 
