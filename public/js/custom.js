@@ -18,6 +18,10 @@ function showHouseFunc(house) {
     }
 }
 
+var getPhoneNumber = function (checkedContact) {
+    return checkedContact.val();
+};
+
 $(document).ready(function () {
     //Create instance of helper class
     var instanceOfHelper = new Helper();
@@ -57,12 +61,18 @@ $(document).ready(function () {
     //Function to send an SMS
     $('#sendSms').click(function () {
         var deliveryStatusDomElement = $('#deliveryStatus');
+        var checkedContacts = $('.chContact:checked');
 
         //Function passed to the send sms method to execute as callback when ajax request is finished
         function displayStatusMessageFromSendingSMS(statusMessage) {
             displayTextOnHtml(deliveryStatusDomElement, statusMessage);
         }
-        instanceOfHelper.sendSms(outputDraftDomElement.text(), displayStatusMessageFromSendingSMS);
+
+        if (checkedContacts.length === 1) {
+            instanceOfHelper.sendSms(outputDraftDomElement.text(), getPhoneNumber(checkedContacts), displayStatusMessageFromSendingSMS);
+        } else {
+            displayTextOnHtml(deliveryStatusDomElement, 'Cannot send message to multiple contacts');
+        }
     });
 });
 

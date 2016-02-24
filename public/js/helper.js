@@ -61,10 +61,11 @@ export class Helper {
         return 'No rooms available';
     }
 
-    sendSms(smsMessage, callback) {
+    sendSms(smsMessage, phoneNumber, callback) {
         if (smsMessage.length > 0) {
             $.post('/sendsms', {
-                message: smsMessage
+                message: smsMessage,
+                to: phoneNumber
             }, function (statusMessage) {
                 callback(statusMessage);
             });

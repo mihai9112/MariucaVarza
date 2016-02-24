@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var contacts = require('./contacts.json');
 
 var app = express();
 
@@ -41,7 +42,8 @@ var housesWithRooms = [
         Rooms: [1, 2, 3, 4, 5, 6, 7, 8]
     }
 ];
-var router = require('./src/routes/router')(nav, housesWithRooms);
+
+var router = require('./src/routes/router')(nav, housesWithRooms, contacts);
 
 app.use(express.static('public'));
 app.set('views', './src/views');
