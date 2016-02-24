@@ -1,5 +1,5 @@
 var express = require('express');
-var config = require('../../configuration.json');
+var config = require('../../config/configuration.json');
 var twilio = require('twilio')(config.accountSid, config.authToken);
 var app = express();
 
